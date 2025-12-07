@@ -1,0 +1,33 @@
+# Python
+.python-version
+**/*.pyc
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# MacOS
+.DS_Store
+
+# Ruff
+ruff.toml
+.ruff_cache
+
+# Pytest
+pytest.ini
+.pytest_cache
+tests
+
+# Git
+.gitignore
+
+# Env
+.venv
+.env
+
+# Project
+Makefile
+README.md
+
+# Logs
