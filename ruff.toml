@@ -1,6 +1,8 @@
 line-length = 79
 
-exclude = []
+exclude = [
+    ".venv"
+]
 
 [lint]
 select = [

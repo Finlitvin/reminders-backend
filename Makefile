@@ -38,7 +38,10 @@ lint: ## Check and format code (Ruff)
 .PHONY: build
 build: ## Build docker image (Docker)
 	sudo docker build . --tag $(app-name) \
-	--build-arg SECRET_KEY=$(SECRET_KEY) \
+	--build-arg DB_HOST=$(DB_HOST) \
+	--build-arg DB_NAME=$(DB_NAME) \
+	--build-arg DB_USER=$(DB_USER) \
+	--build-arg DB_PASSWORD=$(DB_PASSWORD) \
 
 
 .PHONY: run
@@ -68,8 +71,8 @@ rmi: ## Delete docker image (Docker)
 	sudo docker rmi $(app-name)
 
 
-.PHONY: brun
-brun: ## Build and run and log (Docker)
+.PHONY: dserve
+dserve: ## Build and run and log (Docker)
 	make build && make run && make log
 
 
@@ -78,4 +81,6 @@ flush: ## Stop and rm\rmi (Docker)
 	make stop ; make rm ; make rmi
 
 
-## export $(cat .env) - Выгрузка перемененных с .env файла
+.PHONY: env
+env: ## eport var from env file
+	export $(cat .env)

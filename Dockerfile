@@ -8,7 +8,10 @@ ENV APP_PATH=/reminders_backend
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 
-ARG SECRET_KEY
+ARG DB_HOST
+ARG DB_NAME
+ARG DB_USER
+ARG DB_PASSWORD
 
 RUN apt-get update &&\
     apt-get upgrade -y &&\
@@ -23,7 +26,10 @@ RUN uv sync --locked
 
 ENV PATH="$APP_PATH/.venv/bin:$PATH"
 
-RUN echo "SECRET_KEY=$SECRET_KEY" >> .env
+RUN echo "DB_HOST=$DB_HOST" >> .env &&\
+    echo "DB_NAME=$DB_NAME" >> .env &&\
+    echo "DB_USER=$DB_USER" >> .env &&\
+    echo "DB_PASSWORD=$DB_PASSWORD" >> .env
 
 EXPOSE 8000
 
