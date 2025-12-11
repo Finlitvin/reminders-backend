@@ -6,7 +6,7 @@ LABEL version="0.0.1"
 
 ARG PATH
 
-ENV APP_PATH=/reminders_backend
+ENV APP_PATH=/app
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 

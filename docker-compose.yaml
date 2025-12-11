@@ -1,5 +1,5 @@
 services:
-  backend:
+  app:
     build:
       dockerfile: ./Dockerfile
       context: ./
@@ -15,7 +15,7 @@ services:
       watch:
         - action: sync
           path: .
-          target: /reminders_backend
+          target: /app
           ignore:
             - .venv/
         - action: rebuild
@@ -41,8 +41,8 @@ services:
   pg_admin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.org
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
       - "8080:80"
