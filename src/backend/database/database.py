@@ -10,7 +10,7 @@ from .settings.config import get_database_settings
 
 
 settings = get_database_settings()
-print(settings.database_url)
+
 engine: AsyncEngine = create_async_engine(
     settings.database_url, echo=settings.echo, future=settings.future
 )
