@@ -15,8 +15,6 @@ serve: ## Run app (Uvicorn, uvloop)
 
 
 ##################################### Lint #####################################
-
-
 .PHONY: check
 check: ## Check code (Ruff)
 	uv tool run ruff check $(lint-dir) --fix
@@ -33,56 +31,17 @@ lint: ## Check and format code (Ruff)
 
 
 ##################################### Docker #####################################
+.PHONY: prune
+prune: ## reset docker system
+	sudo docker system prune -af --volumes
 
-# TODO Переписать для docker-compose
-# .PHONY: build
-# build: ## Build docker image (Docker)
-# 	sudo docker build . --tag $(app-name) \
-# 	--build-arg DB_HOST=$(DB_HOST) \
-# 	--build-arg DB_PORT=$(DB_PORT) \
-# 	--build-arg DB_NAME=$(DB_NAME) \
-# 	--build-arg DB_USER=$(DB_USER) \
-# 	--build-arg DB_PASSWORD=$(DB_PASSWORD) \
+.PHONY: up
+up: ## up all services in docker
+	sudo docker-compose up -d
 
-
-# .PHONY: run
-# run: ## Run docker container (Docker)
-# 	sudo docker run \
-# 	-d -p $(port):$(port) \
-# 	--name $(app-name) $(app-name) \
-
-
-# .PHONY: log
-# log: ## Container log (Docker)
-# 	sudo docker logs $(app-name) -f -n 1000
-
-
-# .PHONY: stop
-# stop: ## Stop docker container (Docker)
-# 	sudo docker stop $(app-name)
-
-
-# .PHONY: rm
-# rm: ## Delete docker container (Docker)
-# 	sudo docker rm $(app-name)
-
-
-# .PHONY: rmi
-# rmi: ## Delete docker image (Docker)
-# 	sudo docker rmi $(app-name)
-
-
-# .PHONY: dserve
-# dserve: ## Build and run and log (Docker)
-# 	make build && make run && make log
-
-
-# .PHONY: flush
-# flush: ## Stop and rm\rmi (Docker)
-# 	make stop ; make rm ; make rmi
-
-# docker system prune -af --volumes
-
+.PHONY: down
+down: ## down all services in docker
+	sudo docker-compose down
 
 .PHONY: env
 env: ## eport var from env file
