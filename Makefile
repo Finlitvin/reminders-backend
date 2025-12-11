@@ -34,51 +34,54 @@ lint: ## Check and format code (Ruff)
 
 ##################################### Docker #####################################
 
-
-.PHONY: build
-build: ## Build docker image (Docker)
-	sudo docker build . --tag $(app-name) \
-	--build-arg DB_HOST=$(DB_HOST) \
-	--build-arg DB_NAME=$(DB_NAME) \
-	--build-arg DB_USER=$(DB_USER) \
-	--build-arg DB_PASSWORD=$(DB_PASSWORD) \
-
-
-.PHONY: run
-run: ## Run docker container (Docker)
-	sudo docker run \
-	-d -p $(port):$(port) \
-	--name $(app-name) $(app-name) \
+# TODO Переписать для docker-compose
+# .PHONY: build
+# build: ## Build docker image (Docker)
+# 	sudo docker build . --tag $(app-name) \
+# 	--build-arg DB_HOST=$(DB_HOST) \
+# 	--build-arg DB_PORT=$(DB_PORT) \
+# 	--build-arg DB_NAME=$(DB_NAME) \
+# 	--build-arg DB_USER=$(DB_USER) \
+# 	--build-arg DB_PASSWORD=$(DB_PASSWORD) \
 
 
-.PHONY: log
-log: ## Container log (Docker)
-	sudo docker logs $(app-name) -f -n 1000
+# .PHONY: run
+# run: ## Run docker container (Docker)
+# 	sudo docker run \
+# 	-d -p $(port):$(port) \
+# 	--name $(app-name) $(app-name) \
 
 
-.PHONY: stop
-stop: ## Stop docker container (Docker)
-	sudo docker stop $(app-name)
+# .PHONY: log
+# log: ## Container log (Docker)
+# 	sudo docker logs $(app-name) -f -n 1000
 
 
-.PHONY: rm
-rm: ## Delete docker container (Docker)
-	sudo docker rm $(app-name)
+# .PHONY: stop
+# stop: ## Stop docker container (Docker)
+# 	sudo docker stop $(app-name)
 
 
-.PHONY: rmi
-rmi: ## Delete docker image (Docker)
-	sudo docker rmi $(app-name)
+# .PHONY: rm
+# rm: ## Delete docker container (Docker)
+# 	sudo docker rm $(app-name)
 
 
-.PHONY: dserve
-dserve: ## Build and run and log (Docker)
-	make build && make run && make log
+# .PHONY: rmi
+# rmi: ## Delete docker image (Docker)
+# 	sudo docker rmi $(app-name)
 
 
-.PHONY: flush
-flush: ## Stop and rm\rmi (Docker)
-	make stop ; make rm ; make rmi
+# .PHONY: dserve
+# dserve: ## Build and run and log (Docker)
+# 	make build && make run && make log
+
+
+# .PHONY: flush
+# flush: ## Stop and rm\rmi (Docker)
+# 	make stop ; make rm ; make rmi
+
+# docker system prune -af --volumes
 
 
 .PHONY: env
