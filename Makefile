@@ -15,8 +15,6 @@ serve: ## Run app (Uvicorn, uvloop)
 
 
 ##################################### Lint #####################################
-
-
 .PHONY: check
 check: ## Check code (Ruff)
 	uv tool run ruff check $(lint-dir) --fix
@@ -33,49 +31,18 @@ lint: ## Check and format code (Ruff)
 
 
 ##################################### Docker #####################################
+.PHONY: prune
+prune: ## reset docker system
+	sudo docker system prune -af --volumes
 
+.PHONY: up
+up: ## up all services in docker
+	sudo docker-compose up -d --build
 
-.PHONY: build
-build: ## Build docker image (Docker)
-	sudo docker build . --tag $(app-name) \
-	--build-arg SECRET_KEY=$(SECRET_KEY) \
+.PHONY: down
+down: ## down all services in docker
+	sudo docker-compose down
 
-
-.PHONY: run
-run: ## Run docker container (Docker)
-	sudo docker run \
-	-d -p $(port):$(port) \
-	--name $(app-name) $(app-name) \
-
-
-.PHONY: log
-log: ## Container log (Docker)
-	sudo docker logs $(app-name) -f -n 1000
-
-
-.PHONY: stop
-stop: ## Stop docker container (Docker)
-	sudo docker stop $(app-name)
-
-
-.PHONY: rm
-rm: ## Delete docker container (Docker)
-	sudo docker rm $(app-name)
-
-
-.PHONY: rmi
-rmi: ## Delete docker image (Docker)
-	sudo docker rmi $(app-name)
-
-
-.PHONY: brun
-brun: ## Build and run and log (Docker)
-	make build && make run && make log
-
-
-.PHONY: flush
-flush: ## Stop and rm\rmi (Docker)
-	make stop ; make rm ; make rmi
-
-
-## export $(cat .env) - Выгрузка перемененных с .env файла
+.PHONY: env
+env: ## eport var from env file
+	export $(cat .env)

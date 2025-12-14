@@ -1,7 +1,5 @@
 from typing import Any
 
-from pydantic import SecretStr
-
 from .base import BaseAppSettings
 
 
@@ -14,7 +12,6 @@ class AppSettings(BaseAppSettings):
     title: str = "reminders_backend"
     version: str = "0.0.1"
     api_prefix: str = "/api"
-    secret_key: SecretStr
 
     @property
     def fastapi_kwargs(self) -> dict[str, Any]:
