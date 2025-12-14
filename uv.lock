@@ -172,6 +172,9 @@ requires-dist = [
     { name = "uvloop", specifier = "==0.22.1" },
 ]
 
+[package.metadata.requires-dev]
+bot = []
+
 [[package]]
 name = "pydantic"
 version = "2.12.5"

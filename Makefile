@@ -37,7 +37,7 @@ prune: ## reset docker system
 
 .PHONY: up
 up: ## up all services in docker
-	sudo docker-compose up -d
+	sudo docker-compose up -d --build
 
 .PHONY: down
 down: ## down all services in docker
