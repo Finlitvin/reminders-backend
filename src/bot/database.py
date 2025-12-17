@@ -200,10 +200,18 @@ def get_reminder_list_name_by_list_id(list_id: int) -> str:
 
 
 def get_section_name_by_list_id(list_id: int, section_id: int) -> str:
-    res = DATABASE.get("reminder_list")[list_id].get("sections")[section_id].get("name")
+    res = (
+        DATABASE.get("reminder_list")[list_id]
+        .get("sections")[section_id]
+        .get("name")
+    )
     return res
 
 
 def get_reminders_by_section_id(list_id: int, section_id: int) -> list:
-    res = DATABASE.get("reminder_list")[list_id].get("sections")[section_id]
+    res = (
+        DATABASE.get("reminder_list")[list_id]
+        .get("sections")[section_id]
+        .get("reminders")
+    )
     return res

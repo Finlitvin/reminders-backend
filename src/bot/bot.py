@@ -9,14 +9,21 @@ from telegram.ext import (
 )
 
 from settings import get_bot_settings
-from database import get_sections_by_list_id, get_reminder_list_name_by_list_id, get_reminders_by_section_id, get_section_name_by_list_id
+from database import (
+    get_sections_by_list_id,
+    get_reminder_list_name_by_list_id,
+    get_reminders_by_section_id,
+    get_section_name_by_list_id,
+)
 from keyboards import (
     reminder_list_keyboard,
     LIST_BUTTON_CALLBACK,
     section_list_keyboard,
     SECTION_BUTTON_CALLBACK,
-    reminder_keyboard
+    reminder_keyboard,
+    REMINDER_BUTTON_CALLBACK,
 )
+from handlers import error_handler
 from utils import get_callback_query_string
 
 
@@ -34,6 +41,7 @@ async def reminder_list_query(
     sections: list[dict] = get_sections_by_list_id(list_id)
 
     context.user_data["list_id"] = list_id
+    context.user_data["list_name"] = list_name
 
     reply_markup = section_list_keyboard(sections)
 
@@ -47,6 +55,7 @@ async def section_query(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     list_id = context.user_data.get("list_id")
+    list_name = context.user_data.get("list_name")
 
     section_id = int(get_callback_query_string(update))
     section_name = get_section_name_by_list_id(list_id, section_id)
@@ -55,9 +64,15 @@ async def section_query(
     reply_markup = reminder_keyboard(reminders)
 
     await update.callback_query.edit_message_text(
-        text=f"{section_name}:",
+        text=f"{list_name} -> {section_name}:",
         reply_markup=reply_markup,
     )
+
+
+async def reminder_query(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    pass
 
 
 async def get_reminders_list(
@@ -75,6 +90,7 @@ def get_bot():
 
     application = ApplicationBuilder().token(settings.telegram_token).build()
 
+    application.add_error_handler(error_handler)
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("list", get_reminders_list))
     application.add_handler(
@@ -85,6 +101,11 @@ def get_bot():
     application.add_handler(
         CallbackQueryHandler(
             section_query, pattern=f"^{SECTION_BUTTON_CALLBACK}#"
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            reminder_query, pattern=f"^{REMINDER_BUTTON_CALLBACK}#"
         )
     )
 

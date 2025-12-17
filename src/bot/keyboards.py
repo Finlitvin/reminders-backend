@@ -15,7 +15,7 @@ def reminder_list_keyboard() -> InlineKeyboardMarkup:
         buttons.append(
             [
                 InlineKeyboardButton(
-                    f"{list_value.get("icon")} {list_value.get("name")}",
+                    f"{list_value.get('icon')} {list_value.get('name')}",
                     callback_data=f"{LIST_BUTTON_CALLBACK}#{list_value.get('id')}",
                 )
             ]
