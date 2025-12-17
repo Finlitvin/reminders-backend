@@ -22,9 +22,10 @@ from keyboards import (
     SECTION_BUTTON_CALLBACK,
     reminder_keyboard,
     REMINDER_BUTTON_CALLBACK,
+    BACK_BUTTON_CALLBACK,
 )
 from handlers import error_handler
-from utils import get_callback_query_string
+from utils import get_callback_query_string, send_message_with_reply
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -33,7 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def reminder_list_query(
+async def show_sections_handler(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     list_id = int(get_callback_query_string(update))
@@ -51,7 +52,7 @@ async def reminder_list_query(
     )
 
 
-async def section_query(
+async def show_reminders_handler(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     list_id = context.user_data.get("list_id")
@@ -69,20 +70,23 @@ async def section_query(
     )
 
 
-async def reminder_query(
+async def show_reminder_info_handler(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     pass
 
 
-async def get_reminders_list(
+async def show_reminder_list_handler(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ):
+    
     text = "Мои списки:"
 
     reply_markup = reminder_list_keyboard()
 
-    await update.message.reply_text(text=text, reply_markup=reply_markup)
+    send_message = await send_message_with_reply(update)
+
+    await send_message(text=text, reply_markup=reply_markup)
 
 
 def get_bot():
@@ -92,20 +96,29 @@ def get_bot():
 
     application.add_error_handler(error_handler)
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("list", get_reminders_list))
+
+    application.add_handler(CommandHandler("list", show_reminder_list_handler))
     application.add_handler(
         CallbackQueryHandler(
-            reminder_list_query, pattern=f"^{LIST_BUTTON_CALLBACK}#"
+            show_reminder_list_handler, pattern=f"^{BACK_BUTTON_CALLBACK}#"
         )
     )
+
     application.add_handler(
         CallbackQueryHandler(
-            section_query, pattern=f"^{SECTION_BUTTON_CALLBACK}#"
+            show_sections_handler, pattern=f"^{LIST_BUTTON_CALLBACK}#"
         )
     )
+    
     application.add_handler(
         CallbackQueryHandler(
-            reminder_query, pattern=f"^{REMINDER_BUTTON_CALLBACK}#"
+            show_reminders_handler, pattern=f"^{SECTION_BUTTON_CALLBACK}#"
+        )
+    )
+
+    application.add_handler(
+        CallbackQueryHandler(
+            show_reminder_info_handler, pattern=f"^{REMINDER_BUTTON_CALLBACK}#"
         )
     )
 

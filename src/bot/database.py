@@ -13,7 +13,7 @@ DATABASE = {
             "sections": [
                 {
                     "id": 0,
-                    "name": "DEFAULT",
+                    "name": "Без категории",
                     "reminders": [
                         {
                             "id": 0,
@@ -44,7 +44,7 @@ DATABASE = {
             "sections": [
                 {
                     "id": 0,
-                    "name": "DEFAULT",
+                    "name": "Без категории",
                     "reminders": [
                         {
                             "id": 0,
@@ -75,7 +75,7 @@ DATABASE = {
             "sections": [
                 {
                     "id": 0,
-                    "name": "DEFAULT",
+                    "name": "Без категории",
                     "reminders": [
                         {
                             "id": 0,
@@ -130,7 +130,7 @@ DATABASE = {
             "sections": [
                 {
                     "id": 0,
-                    "name": "DEFAULT",
+                    "name": "Без категории",
                     "reminders": [
                         {
                             "id": 0,
@@ -161,7 +161,7 @@ DATABASE = {
             "sections": [
                 {
                     "id": 0,
-                    "name": "DEFAULT",
+                    "name": "Без категории",
                     "reminders": [
                         {
                             "id": 0,

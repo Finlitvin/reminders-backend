@@ -14,7 +14,7 @@ class BaseBotSettings(BaseSettings):
 
 class BotSettings(BaseBotSettings):
     telegram_token: str
-    developer_chat_id: int
+    developer_chat_id: str
 
 
 @lru_cache

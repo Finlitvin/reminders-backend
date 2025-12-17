@@ -6,6 +6,7 @@ from database import DATABASE
 LIST_BUTTON_CALLBACK = "list_button"
 SECTION_BUTTON_CALLBACK = "section_button"
 REMINDER_BUTTON_CALLBACK = "reminder_button"
+BACK_BUTTON_CALLBACK = "back_button"
 
 
 def reminder_list_keyboard() -> InlineKeyboardMarkup:
@@ -38,8 +39,15 @@ def section_list_keyboard(sections: list) -> InlineKeyboardMarkup:
             ]
         )
 
+    buttons.append(
+        [
+            InlineKeyboardButton(
+                "⬅️",
+                callback_data=f"{BACK_BUTTON_CALLBACK}#",
+            )
+        ]
+    )
     inline_keyboard = InlineKeyboardMarkup(buttons)
-
     return inline_keyboard
 
 
@@ -55,6 +63,15 @@ def reminder_keyboard(reminders: list):
                 )
             ]
         )
+
+    buttons.append(
+        [
+            InlineKeyboardButton(
+                "⬅️",
+                callback_data=f"{BACK_BUTTON_CALLBACK}#",
+            )
+        ]
+    )
 
     inline_keyboard = InlineKeyboardMarkup(buttons)
 
